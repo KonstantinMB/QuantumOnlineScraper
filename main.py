@@ -23,8 +23,9 @@ def get_input_data(url):
 def load_data(url):
 
         head = ['Stock Symbol', 'Company Name', 'Stock Exchange', 'Cpn Rate/Ann Amt', 'LiqPref/CallPrice',
-                'Call Date/Matur Date', 'Moodys/S&P Dated', 'Distribution Dates', '15% Tax Rate', 'Parent Company', 'IPO',
-                'Total IPO Units', '$ Per', 'Previous Ticker Symbol', 'Change Symbol Date', 'Market Value']
+                'Call Date/Matur Date', 'Moodys/S&P Dated', 'Conversion Shares @Price', 'Distribution Dates',
+                '15% Tax Rate', 'Parent Company', 'IPO', 'Total IPO Units', '$ Per', 'Previous Ticker Symbol',
+                'Change Symbol Date', 'Market Value']
         head = pd.DataFrame(head).transpose()
         head.to_csv('funds.csv', index=False, header=False)
 
@@ -45,15 +46,20 @@ def load_data(url):
 
                 # first list of data // table 1:
                 attribute = []
+
                 for i in range(0, len(nd)):
                     res = nd[i].text.replace('\n', '').replace('\t', '').replace('\r', '')
                     if res.find("Yahoo"):
                         res = res[0:26]
+                        if any(c.isalpha() for c in res):
+                            res = res.replace('C', '').replace('l', '').replace('i', '').replace('c', '').replace('k', '')
                     if i == 0:
                         res = res.replace('Chart', '')
                     if i == 5:
                         res = res.replace(', ', ' - ')
                     attribute.append(res)
+                if len(nd) == 7:
+                    attribute.insert(5, '-')
 
                 # get data for the second info portion:
                 tables2 = soup.find('table', bgcolor="#DCFDD7", cellspacing="2", width="800").find_all('center')
@@ -68,6 +74,7 @@ def load_data(url):
                 stock_name.append(symbol)
                 stock_name.append(name)
                 tables4 = soup.find('table', bgcolor="#FFEFB5", width="100%", cellspacing="0", border="2", cellpadding="5")
+
                 # second list of data:
                 t1_res = []
                 if table_len >= 11:
@@ -111,6 +118,8 @@ def load_data(url):
                     t1_res.append(res[0])
                     t1_res.append(res[1])
                 else:
+                    t1_res.append('-')
+                    t1_res.append('-')
                     t1_res.append('-')
 
                 # third list of data:
