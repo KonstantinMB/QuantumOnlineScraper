@@ -1,7 +1,7 @@
 # QuantumOnlineScraper
-This is an Upwork project I did for one of my clients. The website had very old HTML & CSS which made teh scraping proccess harder than expected, but I managed to come up with a solution!
+This is an Upwork project I did for one of my clients. The website had very old HTML & CSS which made the scraping proccess harder than expected, but I managed to come up with a solution!
 
-The bot basically scrapes as much data as possible and converts it to convinient CSV file, which can be transitioned to excel spreadsheet very easy!
+The bot basically scrapes as much data as possible and converts it to a convinient CSV file, which can be transitioned to excel spreadsheet very easily!
 
 Here is what my client had to say about my work on this:
 
